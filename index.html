@@ -1,0 +1,41 @@
+<html>
+
+<body>
+  <div id="content"></div>
+  <div id="content2"></div>
+
+  <script type="text/javascript">
+    const source = new EventSource('/events');
+
+    source.addEventListener('message', message => {
+      console.log('Got', message);
+
+      // Display the event data in the `content` div
+      document.querySelector('#content').innerHTML = event.data;
+    });
+
+    function stopSourceWithoutGap() {
+      console.log("button click works");
+      source.close();
+    }
+
+    const source2 = new EventSource('/eventWithDelay');
+
+    source2.addEventListener('message', message => {
+      console.log('Got', message);
+
+      // Display the event data in the `content` div
+      document.querySelector('#content2').innerHTML = event.data;
+    });
+
+    function stopSourceWithGap() {
+      source2.close();
+    }
+
+  </script>
+
+  <button onclick="stopSourceWithoutGap()">Close source without gap</button>
+  <button onclick="stopSourceWithGap()">Close source with gap</button>
+</body>
+
+</html>
